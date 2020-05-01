@@ -1,0 +1,28 @@
+version: '3'
+volumes:
+  dados:
+networks:
+  postgres-network:
+services:
+  db:
+    image: postgres
+    volumes:
+      # Volume of data
+      - dados:/var/lib/postgresql/data
+    networks:
+      - postgres-network
+    environment:
+      POSTGRES_PASSWORD: "postgres"
+    ports:
+      - 5432:5432
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "matheusmoreira.g6@gmail.com"
+      PGADMIN_DEFAULT_PASSWORD: "postgres"
+    ports:
+      - 15432:80
+    networks:
+      - postgres-network
+    depends_on:
+      - db
